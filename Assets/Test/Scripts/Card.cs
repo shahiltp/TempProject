@@ -42,18 +42,28 @@ public class Card : MonoBehaviour
 
     public void FlipUp()
     {
-        isFlipped = true;
-        button.interactable = false;
-        cardBackImage.gameObject.SetActive(false);
-        cardFaceImage.gameObject.SetActive(true);
+        //isFlipped = true;
+        //button.interactable = false;
+        //cardBackImage.gameObject.SetActive(false);
+        //cardFaceImage.gameObject.SetActive(true);
+
+        if (!isFlipped)
+        {
+            StartCoroutine(Flip(true));
+        }
     }
 
     public void FlipDown()
     {
-        isFlipped = false;
-        button.interactable = true;
-        cardFaceImage.gameObject.SetActive(false);
-        cardBackImage.gameObject.SetActive(true);
+        if (isFlipped)
+        {
+            StartCoroutine(Flip(false));
+        }
+
+        //isFlipped = false;
+        //button.interactable = true;
+        //cardFaceImage.gameObject.SetActive(false);
+        //cardBackImage.gameObject.SetActive(true);
     }
 
     public void OnMatchFound()
@@ -65,5 +75,40 @@ public class Card : MonoBehaviour
         var colors = button.colors;
         colors.disabledColor = new Color(0.7f, 1f, 0.7f, 0.7f);
         button.colors = colors;
+    }
+
+
+    private IEnumerator Flip(bool flipUp)
+    {
+        isFlipped = flipUp;
+        button.interactable = !flipUp;
+
+        RectTransform rect = GetComponent<RectTransform>();
+
+        //half
+        for (float scale = 1f; scale >= 0f; scale -= Time.deltaTime * 4f)
+        {
+            rect.localScale = new Vector3(scale, 1f, 1f);
+            yield return null;
+        }
+        if (flipUp)
+        {
+            cardBackImage.gameObject.SetActive(false);
+            cardFaceImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            cardFaceImage.gameObject.SetActive(false);
+            cardBackImage.gameObject.SetActive(true);
+        }
+
+
+        for (float scale = 0f; scale <= 1f; scale += Time.deltaTime * 4f)
+        {
+            rect.localScale = new Vector3(scale, 1f, 1f);
+            yield return null;
+        }
+
+        rect.localScale = Vector3.one;
     }
 }
