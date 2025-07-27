@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : SingletonDestuction<GameManager>
 {
+    internal int rows;
+    internal int cols;
 
     public enum GameState { MainMenu, InGame, GameOver }
     public GameState CurrentState { get; private set; }
