@@ -18,6 +18,10 @@ public class GameManager : SingletonDestuction<GameManager>
     public static event Action<int, int> OnGameStarted; 
     public static event Action OnGameRestarted;
 
+    public static event Action<int> OnScoreChanged;
+
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -26,17 +30,28 @@ public class GameManager : SingletonDestuction<GameManager>
 
     private void OnEnable()
     {
-
+        GameBoard.OnMatchFound += HandleMatchFound;
+        GameBoard.OnAllMatchesFound += HandleAllMatchesFound;
     }
 
     private void OnDisable()
     {
+        GameBoard.OnMatchFound -= HandleMatchFound;
+        GameBoard.OnAllMatchesFound -= HandleAllMatchesFound;
+    }
 
+    public void StartGame(int row, int col)
+    {
+        rows = row;
+        cols = col;
+        UpdateScore(0);
+        UpdateState(GameState.InGame);
+        OnGameStarted?.Invoke(rows, cols);
     }
 
     public void RestartGame()
     {
-        Score = 0;
+        UpdateScore(0); 
         UpdateState(GameState.InGame);
         OnGameRestarted?.Invoke();
     }
@@ -48,7 +63,13 @@ public class GameManager : SingletonDestuction<GameManager>
 
     private void HandleMatchFound(int points)
     {
-        Score += points;
+        UpdateScore(Score + points);
+    }
+    
+    private void UpdateScore(int newScore)
+    {
+        Score = newScore;
+        OnScoreChanged?.Invoke(Score);
     }
 
     private void HandleAllMatchesFound()
@@ -60,12 +81,5 @@ public class GameManager : SingletonDestuction<GameManager>
     {
         CurrentState = newState;
         OnGameStateChanged?.Invoke(newState);
-    }
-
-    public void StartGame(int rows, int cols)
-    {
-        Score = 0;
-        UpdateState(GameState.InGame);
-        OnGameStarted?.Invoke(rows, cols);
     }
 }

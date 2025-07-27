@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 3199329663346734196}
   - component: {fileID: 3199329663346734197}
   - component: {fileID: 3199329663346734198}
-  - component: {fileID: 3199329663346734199}
+  - component: {fileID: 2641177576921549627}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -334,20 +334,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3199329663346734197}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3199329663346734199}
-        m_TargetAssemblyTypeName: Card, Assembly-CSharp
-        m_MethodName: OnCardClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3199329663346734199
+      m_Calls: []
+--- !u!114 &2641177576921549627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,7 +344,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3199329663346734195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84937d805dd02da49bb4a14558046166, type: 3}
+  m_Script: {fileID: 11500000, guid: f2aca18dccc0ca946818dc17b986e48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardBackImage: {fileID: 3199329662819054864}

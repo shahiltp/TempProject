@@ -24,11 +24,6 @@ public class UImanager : MonoBehaviour
     [Header("Game Over UI")]
     public TextMeshProUGUI finalScoreText;
     public Button mainMenuButton;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
     void Awake()
     {
         playButton.onClick.AddListener(OnPlayClicked);
@@ -36,18 +31,24 @@ public class UImanager : MonoBehaviour
         mainMenuButton.onClick.AddListener(OnMainMenuClicked);
     }
 
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+    
+
     private void OnEnable()
     {
         GameManager.OnGameStateChanged += HandleGameStateChanged;
-        GameBoard.OnMatchFound += HandleScoreUpdated;
-        GameManager.OnGameRestarted += HandleGameRestarted;
+        GameManager.OnScoreChanged += HandleScoreChanged;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStateChanged -= HandleGameStateChanged;
-        GameBoard.OnMatchFound -= HandleScoreUpdated;
-        GameManager.OnGameRestarted -= HandleGameRestarted;
+        GameManager.OnScoreChanged -= HandleScoreChanged;
     }
 
     private void HandleGameStateChanged(GameManager.GameState newState)
@@ -60,21 +61,11 @@ public class UImanager : MonoBehaviour
         {
             finalScoreText.text = "Final Score: " + GameManager.Instance.Score;
         }
-
-        if (newState == GameManager.GameState.InGame)
-        {
-            scoreText.text = "Score: 0";
-        }
     }
-
-    private void HandleScoreUpdated(int points)
+    
+    private void HandleScoreChanged(int newScore)
     {
-        scoreText.text = "Score: " + GameManager.Instance.Score;
-    }
-
-    private void HandleGameRestarted()
-    {
-        scoreText.text = "Score: 0";
+        scoreText.text = "Score: " + newScore;
     }
 
     private void OnPlayClicked()
@@ -87,5 +78,13 @@ public class UImanager : MonoBehaviour
         GameManager.Instance.StartGame(rows, cols);
     }
 
-  
+    private void OnRestartClicked()
+    {
+        GameManager.Instance.RestartGame();
+    }
+
+    private void OnMainMenuClicked()
+    {
+        GameManager.Instance.ReturnToMenu();
+    }
 }
